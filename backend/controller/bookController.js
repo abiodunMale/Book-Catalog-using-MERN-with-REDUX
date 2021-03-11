@@ -27,7 +27,7 @@ exports.addBook = async (req, res) => {
 
         
     } catch (error) {
-        return res.status(500).json({success: false, message:"an error occured"});
+        return res.status(500).json({success: false, message:"an error occured "+error});
     }
 };
 
