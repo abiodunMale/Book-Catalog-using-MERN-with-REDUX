@@ -31,7 +31,7 @@ exports.addBook = async (req, res) => {
     }
 };
 
-exports.findBook = async (req, res) => {
+exports.updateBook = async (req, res) => {
 
     try {
 
@@ -46,5 +46,18 @@ exports.findBook = async (req, res) => {
     } catch (error) {
         return res.status(500).json({success: false, message:"an error occured"});
         
+    }
+};
+
+exports.deleteBook = async (req, res) => {
+
+    try {
+
+        await bookModel.findByIdAndDelete(req.params.id, {useFindAndModify: false});
+
+        return res.json({success: true, message: "book sucessfully deleted"});
+        
+    } catch (error) {
+        return res.status(500).json({success: false, message:"an error occured"});
     }
 };
