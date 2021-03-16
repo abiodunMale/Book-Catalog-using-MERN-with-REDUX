@@ -1,13 +1,14 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import { createBookReducers } from '../reducers/books/createBookReducer';
+import { bookListReducers, createBookReducers } from '../reducers/bookReducer';
 
 
 const middleware = [thunk];
 
 const reducer = combineReducers({
-    bookCreated: createBookReducers
+    bookCreated: createBookReducers,
+    bookList: bookListReducers
 });
 
 const store = createStore(

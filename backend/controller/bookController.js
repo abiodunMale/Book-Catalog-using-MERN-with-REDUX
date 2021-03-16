@@ -5,7 +5,8 @@ exports.allBook = async(req, res) => {
     try {
         const allBook = await bookModel.find({}).populate('createdBy');
         if(allBook){
-            return res.json({success: true, data: allBook });
+            // return res.json({success: true, data: allBook });
+            return res.json(allBook);
         }else{
             return res.json({success: true, message: "no book found" , data: null });
         }
@@ -23,8 +24,8 @@ exports.addBook = async (req, res) => {
         const newBook = new bookModel(book);
         await newBook.save();
 
-        return res.json({success: true, message: "book sucessfully created", data: newBook.populate('createdBy') });
-
+        // return res.json({success: true, message: "book sucessfully created", data: newBook.populate('createdBy') });
+        return res.json(newBook);
         
     } catch (error) {
         return res.status(500).json({success: false, message:"an error occured "+error});
