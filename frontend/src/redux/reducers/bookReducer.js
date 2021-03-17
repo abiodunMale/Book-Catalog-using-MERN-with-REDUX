@@ -15,7 +15,6 @@ const createBookReducers = (state={}, action) => {
             };
         case CREATE_BOOK_SUCCESS:
             return {
-                loading: false,
                 book : action.payload
             };
         case CREATE_BOOK_FAIL:
@@ -36,7 +35,6 @@ const bookListReducers = (state=[], action) => {
             };
         case FETCH_BOOK_SUCCESS:
             return {
-                loading: false,
                 book: action.payload
             };
         case FETCH_BOOK_FAIL:

@@ -30,16 +30,25 @@ exports.loginUser = async (req, res) => {
         const user = await userModel.findOne({email : email});
 
         if(user && (await bcrypt.compare(password, user.password))){
-            return res.json({
-                success: true, 
-                message: "login successfully", 
-                data: {
+            // return res.json({
+            //     success: true, 
+            //     message: "login successfully", 
+            //     data: {
+            //         id: user._id, 
+            //         name: user.name, 
+            //         email: user.email,
+            //         token: generateToken(user._id)
+            //     }
+            // });
+
+            return res.json(
+                {
                     id: user._id, 
                     name: user.name, 
                     email: user.email,
                     token: generateToken(user._id)
                 }
-            });
+            );
         }else{
             return res.status(401).json({success: false, message: "invalid credentials"});
         }

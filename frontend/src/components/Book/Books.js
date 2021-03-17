@@ -18,7 +18,7 @@ const Books = () => {
 
     return(
         <div className='col-md-12'>
-            {loading === true ? 
+            {loading ? 
              <h3 className='text-center' style={{marginTop: 200}}><i className="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i></h3> : 
              book ? <div className='card-group' style={{marginTop: 50}}> {book.map((item, index) => <Book key={index} book={item}/>)} </div> : 
              <h3 className='text-center'>No book found!!</h3>

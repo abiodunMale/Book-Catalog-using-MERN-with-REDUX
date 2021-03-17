@@ -76,7 +76,7 @@ const AddBook = () => {
                 />
               </div>
               <button type='submit' style={{width: 105}} disabled={inputdisable} className='btn btn-warning m-auto'>
-                { loading === true ? <i className="fa fa-spinner fa-pulse fa-fw"></i>: 'Create Book' }
+                { loading === true ? <i className="fa fa-spinner fa-pulse fa-fw"></i> : 'Create Book' }
               </button>
             </fieldset>
           </form>

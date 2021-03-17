@@ -11,7 +11,7 @@ exports.allBook = async(req, res) => {
             return res.json({success: true, message: "no book found" , data: null });
         }
     } catch (error) {
-        return res.status(500).json({success: false, message:"an error occured"});
+        return res.status(500).json({success: false, message:"an error occured "+error});
     }
 };
 

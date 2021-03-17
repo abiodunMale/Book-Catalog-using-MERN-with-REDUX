@@ -29,14 +29,14 @@ const Navbar = () => {
             </li>
             <>
               <li className='nav-item'>
-                <a className='nav-link' to='/books'>
+                <Link className='nav-link' to='/books'>
                   Books
-                </a>
+                </Link>
               </li>
               <li className='nav-item'>
-                <a className='nav-link' to='/addbook'>
+                <Link className='nav-link' to='/addbook'>
                   Add book
-                </a>
+                </Link>
               </li>
 
               <li className='nav-item'>
@@ -53,14 +53,14 @@ const Navbar = () => {
             {/* Login Register */}
             <>
               <li className='nav-item'>
-                <a className='nav-link' to='/login'>
+                <Link className='nav-link' to='/login'>
                   Login
-                </a>
+                </Link>
               </li>
               <li className='nav-item'>
-                <a className='nav-link' to='/register'>
+                <Link className='nav-link' to='/register'>
                   Register
-                </a>
+                </Link>
               </li>
             </>
 
