@@ -9,13 +9,17 @@ const LoginUser =  ({history}) => {
     // const [emailaddress, setEmailAddress] = useState('');
     // const [password, setPassword] = useState('');
     const [errors, setError] = useState({});
-    const [values, setValues] = useState({ email: '', pass: ''});
+    const [values, setValues] = useState({ email: '', pass: '', userdata: {}});
 
     const dispatch = useDispatch();
 
-    const { loading, error, user } = useSelector(state => {
+    const state = useSelector(state => {
         return state.userLogin;
     });
+
+    const { loading, error, user } = state;
+
+    
 
     const onChangeValue = (e) => {
         let { name, value } = e.target;
@@ -50,15 +54,20 @@ const LoginUser =  ({history}) => {
     const loginUser = (e) => {
         e.preventDefault();
         disableInput(true);
-        const user = {
+        const userinfo = {
             email: values.email,
             password: values.pass
         };
 
-        dispatch(loginUserAction(user));
+        dispatch(loginUserAction(userinfo));
         disableInput(false);
-        // history.push('/profile');
     };
+
+    useEffect(() => {
+        if(user){
+            history.push('/profile');
+        }   
+    },[state])
 
     return(
         <div className="col-md-6 offset-md-3">

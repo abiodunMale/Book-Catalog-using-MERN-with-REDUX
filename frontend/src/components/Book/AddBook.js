@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createBookAction } from '../../redux/actions/bookActions';
 
-const AddBook = () => {
+const AddBook = ({history}) => {
 
     const [category, setCategory] = useState('programming');
     const [title, setTitle] = useState('');
@@ -77,6 +77,9 @@ const AddBook = () => {
               </div>
               <button type='submit' style={{width: 105}} disabled={inputdisable} className='btn btn-warning m-auto'>
                 { loading === true ? <i className="fa fa-spinner fa-pulse fa-fw"></i> : 'Create Book' }
+              </button>&nbsp;&nbsp;
+              <button onClick={() =>history.push('/books') } disabled={inputdisable} className='btn btn-danger m-auto'>
+                Cancel
               </button>
             </fieldset>
           </form>

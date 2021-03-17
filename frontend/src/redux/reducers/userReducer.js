@@ -1,4 +1,4 @@
-import { USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_REGISTER_FAIL, USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS } from "../actionTypes";
+import { USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGOUT_SUCCESS, USER_REGISTER_FAIL, USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS } from "../actionTypes";
 
 const registerUserReducer = (state={}, action) => {
     switch (action.type) {
@@ -40,4 +40,13 @@ const loginUserReducer = (state={}, action) => {
     }
 };
 
-export { registerUserReducer, loginUserReducer };
+const userLogoutReducer = (state={}, action) => {
+    switch (action.type) {
+        case USER_LOGOUT_SUCCESS:
+            return {};
+        default:
+            return state;
+    }
+};
+
+export { registerUserReducer, loginUserReducer, userLogoutReducer };

@@ -1,14 +1,27 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-
+import { useSelector, useDispatch } from 'react-redux';
+import { Link, useHistory } from 'react-router-dom';
+import { logoutUserAction } from '../../redux/actions/userActions';
 
 const Navbar = () => {
+
+    const dispatch = useDispatch();
+    const history = useHistory();
+    const state = useSelector(state => state.userLogin);
+
+    const logoutUser = () => {
+        dispatch(logoutUserAction());
+        history.push('/');
+    };
+
+    const { user, loading, error } = state;
+
   return (
     <header>
       <nav className='navbar navbar-expand-lg navbar-light bg-light'>
-        <a className='navbar-brand' to='/'>
+        <Link className='navbar-brand' to='/'>
           CATALOG
-        </a>
+        </Link>
         <button
           className='navbar-toggler'
           type='button'
@@ -23,85 +36,64 @@ const Navbar = () => {
         <div className='collapse navbar-collapse' id='navbarColor01'>
           <ul className='navbar-nav m-auto'>
             <li className='nav-item active'>
-              <a className='nav-link' to='/' >
+              <Link className='nav-link' to='/' >
                 Home <span className='sr-only'>(current)</span>
-              </a>
+              </Link>
             </li>
-            <>
-              <li className='nav-item'>
-                <Link className='nav-link' to='/books'>
-                  Books
-                </Link>
-              </li>
-              <li className='nav-item'>
-                <Link className='nav-link' to='/addbook'>
-                  Add book
-                </Link>
-              </li>
-
-              <li className='nav-item'>
-                <a className='nav-link' to='/users'>
-                  Users
-                </a>
-              </li>
-              <li className='nav-item'>
-                <a className='nav-link' to='/login'>
-                  Logout
-                </a>
-              </li>
-            </>
-            {/* Login Register */}
-            <>
+            {!user ? 
+              <>
               <li className='nav-item'>
                 <Link className='nav-link' to='/login'>
                   Login
                 </Link>
-              </li>
+                </li>
               <li className='nav-item'>
                 <Link className='nav-link' to='/register'>
                   Register
                 </Link>
               </li>
-            </>
-
-            {/* Drop dowm */}
-            {true ? (
+              </> : <><li className='nav-item'>
+              <Link className='nav-link' to='/books'>
+                Books
+              </Link>
+            </li>
+            {/* <li className='nav-item'>
+              <Link className='nav-link' to='/addbook'>
+                Add book
+              </Link>
+            </li> */}
+            {/* <li className='nav-item'>
+              <Link className='nav-link' to='/users'>
+                Users
+              </Link>
+            </li> */}
               <li className='nav-item dropdown'>
-                <a
+                <Link
                   className='nav-link dropdown-toggle'
                   data-bs-toggle='dropdown'
-                  href='/'
+                  to='/'
                   id='navbarDropdown'
                   role='button'
                   aria-haspopup='true'
-                  aria-expanded='false'></a>
+                  aria-expanded='false'>Account</Link>
                 <div className='dropdown-menu' aria-labelledby='navbarDropdown'>
-                  <a className='dropdown-item' to='/profile'>
+                  <Link className='dropdown-item' to='/profile'>
                     Profile
-                  </a>
-                  <a className='dropdown-item' to='/addbook'>
-                    Add book
-                  </a>
-                  <a className='dropdown-item' to='/books'>
-                    Books
-                  </a>
-
+                  </Link>
                   <div className='dropdown-divider'></div>
-                  <button className='dropdown-item'>Logout</button>
+                  <Link onClick={logoutUser} className='dropdown-item' to='/'>Logout</Link>
                 </div>
               </li>
-            ) : (
-              ''
-            )}
+              </> }
           </ul>
-          <form className='form-inline my-2 my-lg-0'>
+          {/* <form className='form-inline my-2 my-lg-0'>
             <input
               className='form-control mr-sm-2'
               type='text'
               placeholder='Search'
             />
             <button type="button" className="btn btn-outline-danger">Search</button>
-          </form>
+          </form> */}
         </div>
       </nav>
     </header>
