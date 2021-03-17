@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUserAction } from '../../redux/actions/userActions';
 import Notification from '../Other/Notification';
@@ -6,8 +6,10 @@ import Notification from '../Other/Notification';
 const LoginUser =  ({history}) => {
 
     const [inputdisable, disableInput] = useState(false);
-    const [emailaddress, setEmailAddress] = useState('');
-    const [password, setPassword] = useState('');
+    // const [emailaddress, setEmailAddress] = useState('');
+    // const [password, setPassword] = useState('');
+    const [errors, setError] = useState({});
+    const [values, setValues] = useState({ email: '', pass: ''});
 
     const dispatch = useDispatch();
 
@@ -15,19 +17,42 @@ const LoginUser =  ({history}) => {
         return state.userLogin;
     });
 
+    const onChangeValue = (e) => {
+        let { name, value } = e.target;
+        setValues({ ...values, [name]: value });
+        validation(name, value);
+    };
 
+    const validation = (name, value) => {
 
-    useEffect(() => {
-        console.log('eamil',emailaddress);
-        console.log('password ',password);
-    },[emailaddress,password]);
+        let errors = {};
+        let validEmail = false;
+        let regEmail = /^(([^<>()\]\\.,;:\s@"]+(\.[^<>()\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        let regPassword = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,15}$/
+
+        if(name === 'email'){
+            if(value === '' || !regEmail.test(value)){
+                errors.email = 'Enter a valid email address';
+                validEmail = false;
+            }else{
+                validEmail = true;
+            }
+        }
+
+        if(name === 'pass' ){
+            if(value === '' || !regPassword.test(value)){
+                errors.pass = 'Enter a valid password';
+            }
+        }
+        setError(errors);
+    };
 
     const loginUser = (e) => {
         e.preventDefault();
         disableInput(true);
         const user = {
-            email: emailaddress,
-            password
+            email: values.email,
+            password: values.pass
         };
 
         dispatch(loginUserAction(user));
@@ -44,28 +69,32 @@ const LoginUser =  ({history}) => {
                         <div className='form-group'>
                             <label>EMAIL ADDRESS</label>
                             <input
-                            value={emailaddress}
+                            value={values.email}
                             disabled={inputdisable}
-                            onChange={e => setEmailAddress(e.target.value)}
+                            name='email'
+                            onChange={e => onChangeValue(e)}
                             type='email'
                             className='form-control'
                             id='emailaddress'
                             placeholder='email address'
                             required={true}
                             />
+                            <p style={{color: 'red'}}>{errors.email}</p>
                         </div>
                         <div className='form-group'>
                             <label>PASSWORD</label>
                             <input
-                            value={password}
+                            value={values.pass}
                             disabled={inputdisable}
-                            onChange={e => setPassword(e.target.value)}
+                            onChange={e => onChangeValue(e)}
                             type='password'
+                            name='pass'
                             className='form-control'
                             id='passsword'
                             required={true}
                             placeholder='password'
                             />
+                            <p style={{color: 'red'}}>{errors.pass}</p>
                         </div>
                         <button type='submit' style={{width: 80}} disabled={inputdisable} className='btn btn-warning m-auto'>
                            { loading ? <i className="fa fa-spinner fa-pulse fa-fw"></i> : 'Sigin'}
