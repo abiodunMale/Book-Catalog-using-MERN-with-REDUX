@@ -35,13 +35,6 @@ const loginUserReducer = (state={}, action) => {
                 loading: false,
                 error: action.payload
             };
-        default:
-            return state;
-    }
-};
-
-const userLogoutReducer = (state={}, action) => {
-    switch (action.type) {
         case USER_LOGOUT_SUCCESS:
             return {};
         default:
@@ -49,4 +42,14 @@ const userLogoutReducer = (state={}, action) => {
     }
 };
 
-export { registerUserReducer, loginUserReducer, userLogoutReducer };
+
+// const userLogoutReducer = (state={}, action) => {
+//     switch (action.type) {
+//         case USER_LOGOUT_SUCCESS:
+//             return {};
+//         default:
+//             return state;
+//     }
+// };
+
+export { registerUserReducer, loginUserReducer };

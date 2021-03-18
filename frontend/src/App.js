@@ -5,6 +5,7 @@ import Navbar from './components/NavBar/NavBar';
 import LoginUser from './components/User/Login';
 import { RegisterUser } from './components/User/Register';
 import { HomePage } from './components/HomePage';
+import { ProfilePage } from './components/Profile/ProfilePage';
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <Route exact path='/addbook' component={AddBook}/>
         <Route exact path='/register' component={RegisterUser}/>
         <Route exact path='/login' component={LoginUser}/>
+        <Route exact path='/profile' component={ProfilePage}/>
       </Switch>
     </BrowserRouter>
     </>

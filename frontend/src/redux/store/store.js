@@ -2,7 +2,7 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { bookListReducers, createBookReducers } from '../reducers/bookReducer';
-import { loginUserReducer, registerUserReducer } from '../reducers/userReducer';
+import { loginUserReducer, registerUserReducer, userLogoutReducer } from '../reducers/userReducer';
 
 
 const middleware = [thunk];

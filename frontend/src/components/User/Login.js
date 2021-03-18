@@ -88,7 +88,7 @@ const LoginUser =  ({history}) => {
                             placeholder='email address'
                             required={true}
                             />
-                            <p style={{color: 'red'}}>{errors.email}</p>
+                            <p className='text-primary'>{errors.email}</p>
                         </div>
                         <div className='form-group'>
                             <label>PASSWORD</label>
@@ -103,7 +103,7 @@ const LoginUser =  ({history}) => {
                             required={true}
                             placeholder='password'
                             />
-                            <p style={{color: 'red'}}>{errors.pass}</p>
+                            <p className='text-primary'>{errors.pass}</p>
                         </div>
                         <button type='submit' style={{width: 80}} disabled={inputdisable} className='btn btn-warning m-auto'>
                            { loading ? <i className="fa fa-spinner fa-pulse fa-fw"></i> : 'Sigin'}
