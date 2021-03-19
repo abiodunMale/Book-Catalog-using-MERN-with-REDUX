@@ -3,7 +3,7 @@ const { addBook, allBook, updateBook, deleteBook } = require('../controller/book
 const authMiddleware = require('../middleware/authMiddleware');
 
 router.get('/', allBook);
-router.post('/add', addBook);
+router.post('/add', authMiddleware, addBook);
 router.put('/update/:id', authMiddleware, updateBook);
 router.delete('/delete/:id', authMiddleware, deleteBook);
 

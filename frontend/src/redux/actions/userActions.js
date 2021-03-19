@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGOUT_SUCCESS, USER_REGISTER_FAIL, USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS } from '../actionTypes';
+import { USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGOUT_SUCCESS, USER_PROFILE_FAIL, USER_PROFILE_REQUEST, USER_PROFILE_SUCCESS, USER_REGISTER_FAIL, USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS } from '../actionTypes';
 
 
 const registerUserAction = (userdata) => {
@@ -59,8 +59,38 @@ const loginUserAction = (userdata) => {
     };  
 };
 
-const logoutUserAction = () => async dispatch => {
+const userProfileAction = () => {
+    return async (dispatch, getState) => {
+        try {
+            const { user } = getState().userLogin; 
 
+            dispatch({
+                type: USER_PROFILE_REQUEST
+            });
+
+            const config = {
+                headers: {
+                    'Authorization': `Bearer ${user.token}`
+                }
+            };
+
+            const { data } = await axios.get('api/user/profile', config);
+
+            dispatch({
+                type: USER_PROFILE_SUCCESS,
+                payload: data
+            });
+            
+        } catch (error) {
+            dispatch({
+                type: USER_PROFILE_FAIL,
+                payload: error.response && error.response.data.message
+            });
+        }
+    };
+};
+
+const logoutUserAction = () => async dispatch => {
     try {
         localStorage.removeItem('userAuthData');
         dispatch({
@@ -71,4 +101,4 @@ const logoutUserAction = () => async dispatch => {
 
 
 
-export { registerUserAction, loginUserAction, logoutUserAction };
+export { registerUserAction, loginUserAction, logoutUserAction, userProfileAction };

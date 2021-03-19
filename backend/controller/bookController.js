@@ -3,7 +3,7 @@ const userModel = require('../model/userModel');
 
 exports.allBook = async(req, res) => {
     try {
-        const allBook = await bookModel.find({}).populate('createdBy');
+        const allBook = await bookModel.find({});
         if(allBook){
             // return res.json({success: true, data: allBook });
             return res.json(allBook);
@@ -21,7 +21,7 @@ exports.addBook = async (req, res) => {
     const book = req.body;
 
     try {
-        const newBook = new bookModel(book);
+        const newBook = new bookModel({...book, createdBy: req.user._id});
         await newBook.save();
 
         // return res.json({success: true, message: "book sucessfully created", data: newBook.populate('createdBy') });

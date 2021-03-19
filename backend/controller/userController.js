@@ -56,6 +56,13 @@ exports.loginUser = async (req, res) => {
     } catch (error) {
         return res.status(500).json({success: false, message:"an error occured"});
     }
+};
 
-    
+exports.profile = async (req, res) => {
+    try {
+        const user = await userModel.findById(req.user._id).populate('books');
+        res.status(200).json(user);
+    } catch (error) {
+        return res.status(500).json({success: false, message:"an error occured" +error});
+    }
 };
