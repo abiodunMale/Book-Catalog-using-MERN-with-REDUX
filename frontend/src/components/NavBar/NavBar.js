@@ -7,14 +7,12 @@ const Navbar = () => {
 
     const dispatch = useDispatch();
     const history = useHistory();
-    const state = useSelector(state => state.userLogin);
+    const { token } = useSelector(state => state.userLogin);
 
     const logoutUser = () => {
         dispatch(logoutUserAction());
         history.push('/');
     };
-
-    const { user, loading, error } = state;
 
   return (
     <header>
@@ -35,13 +33,13 @@ const Navbar = () => {
 
         <div className='collapse navbar-collapse' id='navbarColor01'>
           <ul className='navbar-nav m-auto'>
-            <li className='nav-item active'>
-              <Link className='nav-link' to='/' >
-                Home <span className='sr-only'>(current)</span>
-              </Link>
-            </li>
-            {!user ? 
+            {!token ? 
               <>
+              {/* <li className='nav-item active'>
+                <Link className='nav-link' to='/' >
+                  Home <span className='sr-only'>(current)</span>
+                </Link>
+              </li> */}
               <li className='nav-item'>
                 <Link className='nav-link' to='/login'>
                   Login
@@ -57,16 +55,6 @@ const Navbar = () => {
                 Books
               </Link>
             </li>
-            {/* <li className='nav-item'>
-              <Link className='nav-link' to='/addbook'>
-                Add book
-              </Link>
-            </li> */}
-            {/* <li className='nav-item'>
-              <Link className='nav-link' to='/users'>
-                Users
-              </Link>
-            </li> */}
               <li className='nav-item dropdown'>
                 <Link
                   className='nav-link dropdown-toggle'
@@ -86,14 +74,6 @@ const Navbar = () => {
               </li>
               </> }
           </ul>
-          {/* <form className='form-inline my-2 my-lg-0'>
-            <input
-              className='form-control mr-sm-2'
-              type='text'
-              placeholder='Search'
-            />
-            <button type="button" className="btn btn-outline-danger">Search</button>
-          </form> */}
         </div>
       </nav>
     </header>

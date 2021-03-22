@@ -17,7 +17,9 @@ const createBookAction = (bookData) => {
             });
     
             const config = {
-                'Content-Type': 'application/json'
+                headers: {
+                    'Content-Type': 'application/json'
+                }
             };
     
             const { data } = await axios.post('api/book/add', bookData, config);

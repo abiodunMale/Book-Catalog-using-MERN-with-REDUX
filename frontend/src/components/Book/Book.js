@@ -6,12 +6,12 @@ const Book = ({book}) => {
             <div className='card mb-3'>
                 <div className='row no-gutters'>
                 <div className='col-md-8'>
-                    <div className='card-body' style={{height: 200}}>
-                        <p className='card-title'>{book.title}</p>
-                        <p className='card-text'>{book.category}</p>
-                        <p className='card-text'>{book.author}</p>
-                        <p className='card-text'>
-                            <small className='text-muted'>{book.updatedAt}</small>
+                    <div className='card-body' style={{height: 250}}>
+                        Title: <p className='card-title'>{book.title}</p>
+                        Category: <p className='card-text'>{book.category}</p>
+                        Author: <p className='card-text'>{book.author}</p>
+                        Date Created: <p className='card-text'>
+                            <small className='text-muted'>{book.createdAt}</small>
                         </p>
                     </div>
                     <div style={{marginLeft: 20, marginBottom: 10}}>

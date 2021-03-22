@@ -1,5 +1,19 @@
 import axios from 'axios';
-import { USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGOUT_SUCCESS, USER_PROFILE_FAIL, USER_PROFILE_REQUEST, USER_PROFILE_SUCCESS, USER_REGISTER_FAIL, USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS } from '../actionTypes';
+import { 
+    USER_LOGIN_FAIL, 
+    USER_LOGIN_REQUEST, 
+    USER_LOGIN_SUCCESS, 
+    USER_LOGOUT_SUCCESS, 
+    USER_PROFILE_FAIL, 
+    USER_PROFILE_REQUEST, 
+    USER_PROFILE_SUCCESS, 
+    USER_REGISTER_FAIL, 
+    USER_REGISTER_REQUEST, 
+    USER_REGISTER_SUCCESS, 
+    USER_UPDATE_FAIL, 
+    USER_UPDATE_REQUEST, 
+    USER_UPDATE_SUCCESS
+} from '../actionTypes';
 
 
 const registerUserAction = (userdata) => {
@@ -10,7 +24,9 @@ const registerUserAction = (userdata) => {
             });
 
             const config = {
-                'Content-Type': 'application/json'
+                headers: {
+                    'Content-Type': 'application/json'
+                }
             };
 
             const { data } = await axios.post('api/user/register', userdata, config);
@@ -38,7 +54,9 @@ const loginUserAction = (userdata) => {
             });
 
             const config = {
-                'Content-Type': 'application/json'
+                headers: {
+                    'Content-Type': 'application/json'
+                }
             };
 
             const { data } = await axios.post('api/user/login', userdata, config);
@@ -48,7 +66,7 @@ const loginUserAction = (userdata) => {
                 payload: data
             });
 
-            localStorage.setItem('userAuthData', JSON.stringify(data));
+            localStorage.setItem('userAuthData', JSON.stringify(data.token));
             
         } catch (error) {
             dispatch({
@@ -62,7 +80,7 @@ const loginUserAction = (userdata) => {
 const userProfileAction = () => {
     return async (dispatch, getState) => {
         try {
-            const { user } = getState().userLogin; 
+            const {token} = getState().userLogin; 
 
             dispatch({
                 type: USER_PROFILE_REQUEST
@@ -70,7 +88,7 @@ const userProfileAction = () => {
 
             const config = {
                 headers: {
-                    'Authorization': `Bearer ${user.token}`
+                    'Authorization': `Bearer ${token}`
                 }
             };
 
@@ -90,6 +108,37 @@ const userProfileAction = () => {
     };
 };
 
+const userUpdateAction = (userdata) => {
+    return async (dispatch, getState) => {
+        try {
+            const { token } = getState().userLogin; 
+
+            dispatch({
+                type: USER_UPDATE_REQUEST
+            });
+
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            };
+
+            const { data } = await axios.put('api/user/update-profile', userdata, config);
+            dispatch({
+                type: USER_UPDATE_SUCCESS,
+                payload: data
+            });
+            
+        } catch (error) {
+            dispatch({
+                type: USER_UPDATE_FAIL,
+                payload: error.response && error.response.data.message
+            });
+        }
+    };
+};
+
 const logoutUserAction = () => async dispatch => {
     try {
         localStorage.removeItem('userAuthData');
@@ -101,4 +150,10 @@ const logoutUserAction = () => async dispatch => {
 
 
 
-export { registerUserAction, loginUserAction, logoutUserAction, userProfileAction };
+export { 
+    registerUserAction, 
+    loginUserAction, 
+    logoutUserAction, 
+    userProfileAction,
+    userUpdateAction 
+};

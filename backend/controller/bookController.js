@@ -3,15 +3,14 @@ const userModel = require('../model/userModel');
 
 exports.allBook = async(req, res) => {
     try {
-        const allBook = await bookModel.find({});
+        const allBook = await bookModel.find({}).populate('createdBy');
         if(allBook){
-            // return res.json({success: true, data: allBook });
-            return res.json(allBook);
+            return res.status(200).json(allBook);
         }else{
-            return res.json({success: true, message: "no book found" , data: null });
+            return res.status(200).json({ message: "no book found", data: null });
         }
     } catch (error) {
-        return res.status(500).json({success: false, message:"an error occured "+error});
+        return res.status(500).json({message:"an error occured "+error});
     }
 };
 
@@ -23,12 +22,11 @@ exports.addBook = async (req, res) => {
     try {
         const newBook = new bookModel({...book, createdBy: req.user._id});
         await newBook.save();
-
-        // return res.json({success: true, message: "book sucessfully created", data: newBook.populate('createdBy') });
-        return res.json(newBook);
+        
+        return res.status(200).json(newBook);
         
     } catch (error) {
-        return res.status(500).json({success: false, message:"an error occured "+error});
+        return res.status(500).json({message:"an error occured "+error});
     }
 };
 
@@ -42,23 +40,21 @@ exports.updateBook = async (req, res) => {
             useFindAndModify: false
         });
 
-        return res.json({success: true, message: "book sucessfully updated", data: updatedBook});
+        return res.status(200).json({message: "book sucessfully updated", data: updatedBook});
         
     } catch (error) {
-        return res.status(500).json({success: false, message:"an error occured"});
+        return res.status(500).json({message:"an error occured"});
         
     }
 };
 
 exports.deleteBook = async (req, res) => {
-
     try {
 
         await bookModel.findByIdAndDelete(req.params.id, {useFindAndModify: false});
 
-        return res.json({success: true, message: "book sucessfully deleted"});
-        
+        return res.status(200).json({message: "book sucessfully deleted"});
     } catch (error) {
-        return res.status(500).json({success: false, message:"an error occured"});
+        return res.status(500).json({message:"an error occured"});
     }
 };

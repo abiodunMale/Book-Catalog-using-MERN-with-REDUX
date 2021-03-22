@@ -6,8 +6,6 @@ import Notification from '../Other/Notification';
 const LoginUser =  ({history}) => {
 
     const [inputdisable, disableInput] = useState(false);
-    // const [emailaddress, setEmailAddress] = useState('');
-    // const [password, setPassword] = useState('');
     const [errors, setError] = useState({});
     const [values, setValues] = useState({ email: '', pass: '', userdata: {}});
 
@@ -17,7 +15,7 @@ const LoginUser =  ({history}) => {
         return state.userLogin;
     });
 
-    const { loading, error, user } = state;
+    const { loading, error, token } = state;
 
     
 
@@ -64,7 +62,7 @@ const LoginUser =  ({history}) => {
     };
 
     useEffect(() => {
-        if(user){
+        if(token){
             history.push('/profile');
         }   
     },[state])

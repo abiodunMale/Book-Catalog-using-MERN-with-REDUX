@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { registerUserAction } from '../../redux/actions/userActions';
+import Notification from '../Other/Notification';
 
 
 const RegisterUser = ({history}) => {
@@ -12,16 +13,16 @@ const RegisterUser = ({history}) => {
 
     const dispatch = useDispatch();
 
-    const { loading, error, user } = useSelector(state => {
-        return state.userRegister
-    });
+    const state = useSelector(state => state.userRegister);
+
+    const { loading, error, token } = state;
 
 
     useEffect(() => {
-        if(user){
-            history.push('/dashboard');
+        if(token){
+            history.push('/profile');
         }
-    }, [user])
+    }, [state])
 
 
     const registerUser = (e) => {
@@ -41,6 +42,7 @@ const RegisterUser = ({history}) => {
     return(
         <div className="col-md-6 offset-md-3">
             <div className="container" style={{marginTop: 40}}>
+                {error && <Notification error={error} />}
                 <form onSubmit={registerUser}>
                     <fieldset>
                         <div className='form-group'>
