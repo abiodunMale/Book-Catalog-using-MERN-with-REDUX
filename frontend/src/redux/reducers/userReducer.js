@@ -1,4 +1,4 @@
-import { USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGOUT_SUCCESS, USER_PROFILE_FAIL, USER_PROFILE_REQUEST, USER_PROFILE_SUCCESS, USER_REGISTER_FAIL, USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS, USER_UPDATE_FAIL, USER_UPDATE_REQUEST, USER_UPDATE_SUCCESS } from "../actionTypes";
+import { DELETE_BOOK_SUCCESS, USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGOUT_SUCCESS, USER_PROFILE_FAIL, USER_PROFILE_REQUEST, USER_PROFILE_SUCCESS, USER_REGISTER_FAIL, USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS, USER_UPDATE_FAIL, USER_UPDATE_REQUEST, USER_UPDATE_SUCCESS } from "../actionTypes";
 
 const registerUserReducer = (state={}, action) => {
     switch (action.type) {
@@ -50,12 +50,18 @@ const userProfileReducer = (state={}, action) => {
             };
         case USER_PROFILE_SUCCESS:
             return {
-                user: action.payload
+                user: action.payload,
+                books: action.payload.books
             };
         case USER_PROFILE_FAIL: 
             return {
                 loading: false,
                 error: action.payload
+            };
+        case DELETE_BOOK_SUCCESS: 
+            return {
+                success: action.payload.success,
+                books: action.payload.books
             };
         default:
             return state;

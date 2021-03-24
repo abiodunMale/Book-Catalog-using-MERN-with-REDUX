@@ -15,7 +15,7 @@ exports.registerUser = async (req, res) => {
         const newuser = new userModel(request);
         await newuser.save();
 
-        return res.json({message: "Successfully registered", data: newuser })
+        return res.json({message: "successfully registered", data: newuser })
     } catch (error) {
         return res.status(500).json({message:"an error occured "+error});
     }

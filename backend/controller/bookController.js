@@ -23,7 +23,7 @@ exports.addBook = async (req, res) => {
         const newBook = new bookModel({...book, createdBy: req.user._id});
         await newBook.save();
         
-        return res.status(200).json(newBook);
+        return res.status(200).json({message: "book created successfully", data: newBook});
         
     } catch (error) {
         return res.status(500).json({message:"an error occured "+error});
@@ -40,7 +40,7 @@ exports.updateBook = async (req, res) => {
             useFindAndModify: false
         });
 
-        return res.status(200).json({message: "book sucessfully updated", data: updatedBook});
+        return res.status(200).json({message: "book successfully updated", data: updatedBook});
         
     } catch (error) {
         return res.status(500).json({message:"an error occured"});
@@ -53,8 +53,8 @@ exports.deleteBook = async (req, res) => {
 
         await bookModel.findByIdAndDelete(req.params.id, {useFindAndModify: false});
 
-        return res.status(200).json({message: "book sucessfully deleted"});
+        return res.status(200).json({message: "book successfully deleted"});
     } catch (error) {
-        return res.status(500).json({message:"an error occured"});
+        return res.status(500).json({message:"an error occured "+error});
     }
 };

@@ -4,7 +4,10 @@ import {
     CREATE_BOOK_SUCCESS, 
     FETCH_BOOK_REQUEST, 
     FETCH_BOOK_SUCCESS,
-    FETCH_BOOK_FAIL
+    FETCH_BOOK_FAIL,
+    DELETE_BOOK_REQUEST,
+    DELETE_BOOK_SUCCESS,
+    DELETE_BOOK_FAIL
  } from "../actionTypes";
 
 const createBookReducers = (state={}, action) => {
@@ -15,7 +18,8 @@ const createBookReducers = (state={}, action) => {
             };
         case CREATE_BOOK_SUCCESS:
             return {
-                book : action.payload
+                book: action.payload.data,
+                success: action.payload.message,
             };
         case CREATE_BOOK_FAIL:
             return{
@@ -47,4 +51,25 @@ const bookListReducers = (state=[], action) => {
     }
 };
 
-export { createBookReducers, bookListReducers };
+const deleteBookReducers = (state={}, action) => {
+    switch (action.type) {
+        case DELETE_BOOK_REQUEST:
+            return {
+                loading: true
+            };
+        case DELETE_BOOK_SUCCESS:
+            return {
+                book: action.payload.data,
+                success: action.payload.message
+            };
+        case DELETE_BOOK_FAIL:
+            return {
+                loading: false,
+                error: action.payload
+            }
+        default:
+            return state;
+    }
+};
+
+export { createBookReducers, bookListReducers, deleteBookReducers };

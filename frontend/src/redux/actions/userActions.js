@@ -125,6 +125,7 @@ const userUpdateAction = (userdata) => {
             };
 
             const { data } = await axios.put('api/user/update-profile', userdata, config);
+
             dispatch({
                 type: USER_UPDATE_SUCCESS,
                 payload: data

@@ -3,14 +3,18 @@ import {
     CREATE_BOOK_FAIL, 
     CREATE_BOOK_REQUEST, 
     CREATE_BOOK_SUCCESS, 
+    DELETE_BOOK_FAIL, 
+    DELETE_BOOK_REQUEST, 
+    DELETE_BOOK_SUCCESS, 
     FETCH_BOOK_FAIL, 
     FETCH_BOOK_REQUEST, 
     FETCH_BOOK_SUCCESS 
 } from "../actionTypes";
 
 const createBookAction = (bookData) => {
-    return async (dispatch) => {
+    return async (dispatch, getState) => {
         try {
+            const { token } = getState().userLogin; 
 
             dispatch({
                 type: CREATE_BOOK_REQUEST
@@ -18,12 +22,13 @@ const createBookAction = (bookData) => {
     
             const config = {
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 }
             };
     
             const { data } = await axios.post('api/book/add', bookData, config);
-    
+
             dispatch({
                 type: CREATE_BOOK_SUCCESS,
                 payload: data
@@ -69,5 +74,41 @@ const fetchBooksAction = () => {
     };
 };
 
+const deleteBookAction = (bookid) => {
+    return async (dispatch, getState) => {
+        try {
+            const { token } = getState().userLogin; 
+            const { books } = getState().userProfile; 
 
-export { createBookAction, fetchBooksAction };
+            dispatch({
+                type: DELETE_BOOK_REQUEST
+            });
+
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            };
+
+            const { data } = await axios.delete('api/book/delete/'+bookid, config);
+            
+            dispatch({
+                type: DELETE_BOOK_SUCCESS,
+                payload: { 
+                    books:books.filter(item => item._id !== bookid), 
+                    success: data.message 
+                } 
+            });
+            
+        } catch (error) {
+            dispatch({
+                type: DELETE_BOOK_FAIL,
+                payload: error.response && error.response.data.message
+            });
+        }
+    };
+};
+
+
+export { createBookAction, fetchBooksAction, deleteBookAction };

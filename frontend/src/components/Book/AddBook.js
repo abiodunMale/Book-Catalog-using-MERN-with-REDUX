@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createBookAction } from '../../redux/actions/bookActions';
+import Notification from '../Other/Notification';
 
 const AddBook = ({history}) => {
 
@@ -9,7 +10,7 @@ const AddBook = ({history}) => {
     const [author, setAuthor] = useState('');
     const [inputdisable, disableInput] = useState(false);
 
-    const { loading , error, book } = useSelector(state => {
+    const { loading , error, book, success } = useSelector(state => {
       return state.bookCreated;
     });
 
@@ -28,13 +29,16 @@ const AddBook = ({history}) => {
 
         dispatch(createBookAction(obj));
         disableInput(false);
+        setTitle('');
+        setAuthor('');
     };
 
     
     
   return (
-      <div className="col-md-6 offset-md-3">
-        <div className="container" style={{marginTop: 40}}>
+      <div className="col-md-6 offset-md-3" style={{marginTop: 40}}>
+        {success && <Notification success={success}/>}
+        <div className="container">
           <form onSubmit={submitBook}>
             <fieldset>
               <div className='form-group'>
