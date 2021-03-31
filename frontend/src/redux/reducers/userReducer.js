@@ -1,4 +1,21 @@
-import { DELETE_BOOK_SUCCESS, USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGOUT_SUCCESS, USER_PROFILE_FAIL, USER_PROFILE_REQUEST, USER_PROFILE_SUCCESS, USER_REGISTER_FAIL, USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS, USER_UPDATE_FAIL, USER_UPDATE_REQUEST, USER_UPDATE_SUCCESS } from "../actionTypes";
+import { 
+    DELETE_BOOK_FAIL, 
+    DELETE_BOOK_REQUEST, 
+    DELETE_BOOK_SUCCESS, 
+    USER_LOGIN_FAIL, 
+    USER_LOGIN_REQUEST, 
+    USER_LOGIN_SUCCESS, 
+    USER_LOGOUT_SUCCESS, 
+    USER_PROFILE_FAIL, 
+    USER_PROFILE_REQUEST, 
+    USER_PROFILE_SUCCESS, 
+    USER_REGISTER_FAIL, 
+    USER_REGISTER_REQUEST, 
+    USER_REGISTER_SUCCESS,
+    USER_UPDATE_REQUEST, 
+    USER_UPDATE_FAIL, 
+    USER_UPDATE_SUCCESS 
+} from "../actionTypes";
 
 const registerUserReducer = (state={}, action) => {
     switch (action.type) {
@@ -13,7 +30,10 @@ const registerUserReducer = (state={}, action) => {
         case USER_REGISTER_FAIL:
             return {
                 loading: false,
-                error: action.payload
+                message: {
+                    type: 'fail',
+                    content: action.payload
+                }
             };
         default:
             return state;
@@ -33,7 +53,10 @@ const loginUserReducer = (state={}, action) => {
         case USER_LOGIN_FAIL:
             return {
                 loading: false,
-                error: action.payload
+                message: {
+                    type: 'fail',
+                    content: action.payload
+                }
             };
         case USER_LOGOUT_SUCCESS:
             return {};
@@ -56,17 +79,37 @@ const userProfileReducer = (state={}, action) => {
         case USER_PROFILE_FAIL: 
             return {
                 loading: false,
-                error: action.payload
+                message: {
+                    type: 'fail',
+                    content: action.payload
+                }
             };
+        case DELETE_BOOK_REQUEST:
+                return {
+                    loading: true
+                };
         case DELETE_BOOK_SUCCESS: 
             return {
-                success: action.payload.success,
-                books: action.payload.books
+                books: action.payload.books,
+                message: {
+                    type: 'success',
+                    content: action.payload.message
+                }
             };
+        case DELETE_BOOK_FAIL:
+            return {
+                loading: false,
+                message: {
+                    type: 'fail',
+                    content: action.payload
+                }
+            }
         default:
             return state;
     }
 };
+
+
 
 const userUpdateReducer = (state={}, action) => {
     switch (action.type) {
@@ -77,12 +120,20 @@ const userUpdateReducer = (state={}, action) => {
         case USER_UPDATE_SUCCESS: 
             return {
                 user: action.payload.data,
-                success: action.payload.message
+                message: {
+                    type: 'success',
+                    title: 'Success',
+                    content: action.payload.message
+                }
             };
         case USER_UPDATE_FAIL:
             return {
                 loading: false,
-                error: action.payload
+                message: {
+                    type: 'fail',
+                    title: 'Error',
+                    content: action.payload
+                }
             };
         default:
             return state;

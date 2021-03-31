@@ -15,7 +15,7 @@ const RegisterUser = ({history}) => {
 
     const state = useSelector(state => state.userRegister);
 
-    const { loading, error, token } = state;
+    const { loading, message, token } = state;
 
 
     useEffect(() => {
@@ -42,7 +42,7 @@ const RegisterUser = ({history}) => {
     return(
         <div className="col-md-6 offset-md-3">
             <div className="container" style={{marginTop: 40}}>
-                {error && <Notification error={error} />}
+                {message?.content && <Notification message={message} />}
                 <form onSubmit={registerUser}>
                     <fieldset>
                         <div className='form-group'>
@@ -52,6 +52,7 @@ const RegisterUser = ({history}) => {
                             disabled={inputdisable}
                             onChange={e => setUsername(e.target.value)}
                             type='text'
+                            required
                             className='form-control'
                             id='exampleInputUsername1'
                             aria-describedby='emailHelp'
@@ -65,6 +66,7 @@ const RegisterUser = ({history}) => {
                             disabled={inputdisable}
                             onChange={e => setEmailAddress(e.target.value)}
                             type='email'
+                            required
                             className='form-control'
                             id='exampleInputEmail1'
                             placeholder='email address'
@@ -77,6 +79,7 @@ const RegisterUser = ({history}) => {
                             disabled={inputdisable}
                             onChange={e => setPassword(e.target.value)}
                             type='password'
+                            required
                             className='form-control'
                             id='exampleInputPassword1'
                             placeholder='password'

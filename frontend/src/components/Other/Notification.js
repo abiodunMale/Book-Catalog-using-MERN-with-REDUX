@@ -1,29 +1,28 @@
-const Notification = ({error, success, info}) => {
-    if(error != null){
-        return(
-            <div className="alert alert-primary alert-dismissible fade show" role="alert">
-                <button type="button" className="close" data-bs-dismiss="alert">&times;</button>
-                <strong> {error}!</strong>
-            </div>
-        );
-    }
-    if(success != null){
-        return(
-            <div className="alert alert-success alert-dismissible fade show" role="alert">
-                <button type="button" className="close" data-bs-dismiss="alert">&times;</button>
-                <strong> {success}!</strong>
-            </div>
-        );
-    }
-    if(info != null){
-        return(
-            <div className="alert alert-info alert-dismissible fade show" role="alert">
-                <button type="button" className="close" data-bs-dismiss="alert">&times;</button>
-                <strong> {info}!</strong>
-            </div>
-        );
-    }
-};
+import { useState } from 'react';
+import { Grid, Message } from 'semantic-ui-react'
 
+
+const Notification = ({message}) => {
+
+    const [toggleMsg, setMsg] = useState(false)
+
+    return(
+        <Grid centered>
+          <Grid.Row>
+                <Grid.Column width={8}>
+                    <Message 
+                    hidden={toggleMsg} 
+                    onDismiss={() => setMsg(true) } 
+                    success={message.type === 'success' ? true : false} 
+                    error={message.type === 'fail' ? true : false}
+                    >
+                        <Message.Header>{message.type}!</Message.Header>
+                        <p>{message.content}</p>
+                    </Message>
+                </Grid.Column>
+            </Grid.Row>
+        </Grid>
+    );
+};
 
 export default Notification;

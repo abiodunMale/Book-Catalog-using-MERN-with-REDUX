@@ -6,8 +6,9 @@ import Notification from '../Other/Notification';
 const LoginUser =  ({history}) => {
 
     const [inputdisable, disableInput] = useState(false);
+    // const [inputbtn, disableButon] = useState(true);
     const [errors, setError] = useState({});
-    const [values, setValues] = useState({ email: '', pass: '', userdata: {}});
+    const [values, setValues] = useState({ email: '', pass: ''});
 
     const dispatch = useDispatch();
 
@@ -15,37 +16,34 @@ const LoginUser =  ({history}) => {
         return state.userLogin;
     });
 
-    const { loading, error, token } = state;
+    const { loading, message, token } = state;
 
     
 
     const onChangeValue = (e) => {
-        let { name, value } = e.target;
-        setValues({ ...values, [name]: value });
+        const { name, value } = e.target;
+        setValues({...values, [name]: value});
         validation(name, value);
     };
 
     const validation = (name, value) => {
-
-        let errors = {};
-        let validEmail = false;
-        let regEmail = /^(([^<>()\]\\.,;:\s@"]+(\.[^<>()\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        let regPassword = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,15}$/
+        let errors = {},  inValid = false;
+        const regEmail = /^(([^<>()\]\\.,;:\s@"]+(\.[^<>()\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        const regPassword = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,15}$/
 
         if(name === 'email'){
             if(value === '' || !regEmail.test(value)){
                 errors.email = 'Enter a valid email address';
-                validEmail = false;
-            }else{
-                validEmail = true;
+                inValid = true;
             }
         }
-
         if(name === 'pass' ){
             if(value === '' || !regPassword.test(value)){
                 errors.pass = 'Enter a valid password';
+                inValid = true;
             }
         }
+
         setError(errors);
     };
 
@@ -70,7 +68,7 @@ const LoginUser =  ({history}) => {
     return(
         <div className="col-md-6 offset-md-3">
             <div className="container" style={{marginTop: 40}}>
-                {error && <Notification error={error}/> }
+                {message?.content && <Notification message={message}/> }
                 <form onSubmit={loginUser}>
                     <fieldset>
                         <div className='form-group'>

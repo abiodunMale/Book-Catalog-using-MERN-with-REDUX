@@ -5,9 +5,12 @@ import {
     FETCH_BOOK_REQUEST, 
     FETCH_BOOK_SUCCESS,
     FETCH_BOOK_FAIL,
-    DELETE_BOOK_REQUEST,
-    DELETE_BOOK_SUCCESS,
-    DELETE_BOOK_FAIL
+    SINGLE_BOOK_REQUEST,
+    SINGLE_BOOK_SUCCESS,
+    SINGLE_BOOK_FAIL,
+    BOOK_UPDATE_REQUEST,
+    BOOK_UPDATE_SUCCESS,
+    BOOK_UPDATE_FAIL
  } from "../actionTypes";
 
 const createBookReducers = (state={}, action) => {
@@ -19,12 +22,18 @@ const createBookReducers = (state={}, action) => {
         case CREATE_BOOK_SUCCESS:
             return {
                 book: action.payload.data,
-                success: action.payload.message,
+                message: {
+                    type: 'success',
+                    content: action.payload.message
+                }
             };
         case CREATE_BOOK_FAIL:
             return{
                 loading: false,
-                error: action.payload
+                message: {
+                    type: 'fail',
+                    content: action.payload
+                }
             };
         default:
             return state;
@@ -44,32 +53,70 @@ const bookListReducers = (state=[], action) => {
         case FETCH_BOOK_FAIL:
             return {
                 loading: false,
-                error: action.payload
+                message: {
+                    type: 'fail',
+                    content: action.payload
+                }
             };
         default:
             return state;
     }
 };
 
-const deleteBookReducers = (state={}, action) => {
+
+const singleBookReducers = (state={}, action) => {
     switch (action.type) {
-        case DELETE_BOOK_REQUEST:
+        case SINGLE_BOOK_REQUEST:
             return {
                 loading: true
             };
-        case DELETE_BOOK_SUCCESS:
+        case SINGLE_BOOK_SUCCESS:
             return {
-                book: action.payload.data,
-                success: action.payload.message
+                book: action.payload.book
             };
-        case DELETE_BOOK_FAIL:
+        case SINGLE_BOOK_FAIL:
             return {
                 loading: false,
-                error: action.payload
-            }
+                message: {
+                    type: 'fail',
+                    content: action.payload
+                }
+            };
         default:
             return state;
     }
 };
 
-export { createBookReducers, bookListReducers, deleteBookReducers };
+const updateBookReducers = (state={}, action) => {
+    switch (action.type) {
+        case BOOK_UPDATE_REQUEST:
+            return {
+                loading: true
+            };
+        case BOOK_UPDATE_SUCCESS:
+            return {
+                book: action.payload.data,
+                message: {
+                    type: 'success',
+                    content: action.payload.message
+                }
+            };
+        case BOOK_UPDATE_FAIL: 
+            return {
+                loading: false,
+                message: {
+                    type: 'fail',
+                    content: action.payload
+                }
+            };
+        default:
+            return state;
+    }
+};
+
+export { 
+    createBookReducers, 
+    bookListReducers, 
+    singleBookReducers,
+    updateBookReducers
+};

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { userUpdateAction } from '../../redux/actions/userActions';
 import Notification from '../Other/Notification';
+import { Form, Grid, Button, GridRow, GridColumn, Header  } from 'semantic-ui-react'
+import { Link } from 'react-router-dom';
 
 
 const UpdateProfile = ({location, history}) => {
@@ -39,7 +41,7 @@ const UpdateProfile = ({location, history}) => {
         if(name === 'name'){
             if(value === ''){
                 errors.name = "Name cannot be empty";
-                inValid = true
+                inValid = true;
             }
         }
         if(name === 'email'){
@@ -54,53 +56,58 @@ const UpdateProfile = ({location, history}) => {
 
 
     return(
-        <div className="col-md-6 offset-md-3">
-            <div className="container" style={{marginTop: 40}}>
-                { updatedProfile?.success && <Notification success={updatedProfile?.success}/>}
-                { updatedProfile?.error && <Notification error={updatedProfile.error}/>}
-                    <form onSubmit={updateProfile}>
-                        <fieldset>
-                            <div className='form-group'>
-                                <label>NAME</label>
-                                <input
-                                value={uValues.name}
-                                disabled={inputdisable}
-                                onChange={e => onChangeValue(e)}
-                                onBlur={e => validate(e)}
-                                required={true}
-                                type='text'
-                                name='name'
-                                className='form-control'
-                                id='exampleInputUsername1'
-                                aria-describedby='emailHelp'
-                                placeholder='username'
-                                />
-                                <small className="form-text text-primary">{errors.name}</small>
-                            </div>
-                            <div className='form-group'>
-                                <label>EMAIL ADDRESS</label>
-                                <input
-                                value={uValues.email}
-                                disabled={inputdisable}
-                                onChange={e => onChangeValue(e)}
-                                onBlur={e => validate(e)}
-                                type='email'
-                                name='email'
-                                required={true}
-                                className='form-control'
-                                id='exampleInputEmail1'
-                                placeholder='email address'
-                                />
-                                <small className="form-text text-primary">{errors.email}</small>
-                            </div>
-                            <button type='submit' style={{width: 80}} disabled={inputbtn} className='btn btn-warning m-auto'>
-                            {updatedProfile?.loading ? <i className="fa fa-spinner fa-pulse fa-fw"></i> : 'Update'}
-                            </button>
-                        </fieldset>
-                    </form> 
-            </div>
-            
-        </div>
+        <div style={{marginTop: 20}}>
+        {updatedProfile.message?.content && <Notification message={updatedProfile.message}/> }    
+        <Grid>
+            <GridRow centered style={{marginTop: 20}}>
+                <GridColumn width={8}>
+                    <Form onSubmit={updateProfile}>
+                        <Form.Field>
+                        <label>Name</label>
+                        <input 
+                            value={uValues.name}
+                            disabled={inputdisable}
+                            onChange={e => onChangeValue(e)}
+                            onBlur={e => validate(e)}
+                            required={true}
+                            type='text'
+                            name='name'
+                            placeholder='username'
+                        />
+                        </Form.Field>
+                        <Form.Field>
+                        <label>Email Addresss</label>
+                        <input
+                         value={uValues.email}
+                         disabled={inputdisable}
+                         onChange={e => onChangeValue(e)}
+                         onBlur={e => validate(e)}
+                         type='email'
+                         id='form-input-control-error-email'
+                         name='email'
+                         required={true}
+                         placeholder='email address'
+                         error={{
+                            content: 'Please enter a valid email address',
+                            pointing: 'below',
+                          }}
+                        />
+                        </Form.Field>
+                        {updatedProfile.loading ? 
+                        (<Button loading primary disabled content='Update' icon='check' labelPosition='left'/>) : 
+                        (<> 
+                        <Button type='submit' content='Update' icon='check' labelPosition='left' primary/>
+                        <Button color='red' as={Link} to={'/profile'} content='Cancel' icon='cancel' labelPosition='left'/>
+                        </>)
+                        }
+                        
+                        
+
+                    </Form>
+                </GridColumn>
+            </GridRow>
+        </Grid>
+       </div>
     );
 };
 

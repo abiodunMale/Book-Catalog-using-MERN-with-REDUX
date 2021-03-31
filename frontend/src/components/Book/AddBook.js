@@ -10,7 +10,7 @@ const AddBook = ({history}) => {
     const [author, setAuthor] = useState('');
     const [inputdisable, disableInput] = useState(false);
 
-    const { loading , error, book, success } = useSelector(state => {
+    const { loading , message } = useSelector(state => {
       return state.bookCreated;
     });
 
@@ -37,7 +37,7 @@ const AddBook = ({history}) => {
     
   return (
       <div className="col-md-6 offset-md-3" style={{marginTop: 40}}>
-        {success && <Notification success={success}/>}
+        {message?.content && <Notification message={message}/>}
         <div className="container">
           <form onSubmit={submitBook}>
             <fieldset>

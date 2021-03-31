@@ -7,6 +7,7 @@ import { RegisterUser } from './components/User/Register';
 import { HomePage } from './components/HomePage';
 import { ProfilePage } from './components/Profile/ProfilePage';
 import UpdateProfile from './components/Profile/UpdateProfile';
+import EditBook from './components/Book/EditBook';
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
         <Route exact path='/login' component={LoginUser}/>
         <Route exact path='/profile' component={ProfilePage}/>
         <Route exact path='/profile-update' component={UpdateProfile}/>
+        <Route exact path='/book/edit/:id' component={EditBook}/>
       </Switch>
     </BrowserRouter>
     </>

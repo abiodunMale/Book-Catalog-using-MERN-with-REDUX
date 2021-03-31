@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
+import { Card, Icon, Grid, Image, Button, Placeholder,  } from 'semantic-ui-react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { userProfileAction } from '../../redux/actions/userActions';
-import Books from '../Book/Books';
 import Notification from '../Other/Notification';
 
 const ProfilePage = () => {
@@ -13,43 +13,62 @@ const ProfilePage = () => {
     },[dispatch])
 
     const userProfile = useSelector(state => state.userProfile);
-    const { user, loading, error } = userProfile;
+    const { user, loading, message } = userProfile;
 
     return (
-        <>
-          <div className='col-md-12'>
-            {loading ?  
-             <h3 className='text-center' style={{marginTop: 200}}><i className="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i></h3> : 
-             error ? <Notification error={error}/>:
-              <div className='col mt-5'>
-                <div className='card m-auto' style={{ width: '50%' }}>
-                  <div className='card-body' style={{padding: 30}}>
-                    <img style={{height: 150, width: 150, float: 'right'}} src='https://i.pinimg.com/originals/51/f6/fb/51f6fb256629fc755b8870c801092942.png' alt='...' />
-                    <h5 className='card-title'> 
-                      <small>Email Address: {user?.email}</small>
-                    </h5>
-                    <p className='card-text'>
-                        <small>Name: {user?.name}</small>
-                    </p>
-                    <p className='card-text'>
-                        <small>Date Joined: {user?.createdAt}</small>
-                    </p>
-                    <p className='card-text'>
-                        <small>Total Books: {user?.books.length}</small>
-                    </p>
-                    <Link to={{
-                      pathname: '/profile-update',
-                          user
-                      }} className='btn btn-secondary'>
-                      Update profile
-                    </Link>&nbsp;&nbsp;
-                    <button className='btn btn-secondary'>Change Password</button>
-                  </div>
-                </div>
-              </div>
-            }
-          </div>
-        </>
+      <div style={{marginTop: 30}}>
+        {message && <Notification message={message}/> }    
+        <Grid>
+          <Grid.Row centered columns={4}>
+            <Grid.Column>
+              {loading || message?.content ? (
+                <Placeholder>
+                  <Placeholder.Image square />
+                </Placeholder>
+              ):(
+                <Image src='https://i.pinimg.com/originals/51/f6/fb/51f6fb256629fc755b8870c801092942.png' size='medium' circular /> 
+              )}
+            </Grid.Column>
+            <Grid.Column style={{marginTop: 24}}>
+              <Card>
+                {loading || message?.content ? (
+                  <Card.Content>
+                    <Placeholder>
+                      <Placeholder.Header>
+                        <Placeholder.Line length='very short' />
+                        <Placeholder.Line length='medium' />
+                      </Placeholder.Header>
+                      <Placeholder.Paragraph>
+                        <Placeholder.Line length='short' />
+                      </Placeholder.Paragraph>
+                    </Placeholder>
+                  </Card.Content>
+                  ):(
+                  <>
+                    <Card.Content>
+                      <Card.Header>{user?.name}</Card.Header>
+                      <Card.Meta>Joined in {user?.createdAt}</Card.Meta>
+                      <Card.Description>
+                        {user?.email}
+                      </Card.Description>
+                    </Card.Content>
+                    <Card.Content extra>
+                      <Link to={'/books'}>
+                        <Icon name='book' />
+                        {user?.books.length} books
+                      </Link>
+                    </Card.Content>
+                  </>
+                )}
+              </Card>
+              <Button as={Link} to={{
+                    pathname: '/profile-update',
+                        user
+                    }} disabled={user ? false: true} content='Edit Profile' primary/>
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
+      </div>
       );
 };
 

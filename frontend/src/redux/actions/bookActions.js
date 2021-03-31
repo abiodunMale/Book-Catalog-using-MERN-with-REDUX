@@ -1,5 +1,8 @@
 import axios from "axios";
 import { 
+    BOOK_UPDATE_FAIL,
+    BOOK_UPDATE_REQUEST,
+    BOOK_UPDATE_SUCCESS,
     CREATE_BOOK_FAIL, 
     CREATE_BOOK_REQUEST, 
     CREATE_BOOK_SUCCESS, 
@@ -8,7 +11,10 @@ import {
     DELETE_BOOK_SUCCESS, 
     FETCH_BOOK_FAIL, 
     FETCH_BOOK_REQUEST, 
-    FETCH_BOOK_SUCCESS 
+    FETCH_BOOK_SUCCESS, 
+    SINGLE_BOOK_FAIL, 
+    SINGLE_BOOK_REQUEST,
+    SINGLE_BOOK_SUCCESS
 } from "../actionTypes";
 
 const createBookAction = (bookData) => {
@@ -97,7 +103,7 @@ const deleteBookAction = (bookid) => {
                 type: DELETE_BOOK_SUCCESS,
                 payload: { 
                     books:books.filter(item => item._id !== bookid), 
-                    success: data.message 
+                    message: data.message 
                 } 
             });
             
@@ -110,5 +116,75 @@ const deleteBookAction = (bookid) => {
     };
 };
 
+const singleBookAction = (bookid) => {
+    return async (dispatch, getState) => {
+        try {
 
-export { createBookAction, fetchBooksAction, deleteBookAction };
+            const { token } = getState().userLogin; 
+
+            dispatch({
+                type: SINGLE_BOOK_REQUEST
+            });
+
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            };
+
+            const { data } = await axios.get('/api/book/detail/'+bookid, config);
+
+            dispatch({
+                type: SINGLE_BOOK_SUCCESS,
+                payload: data
+            });
+        } catch (error) {
+            dispatch({
+                type: SINGLE_BOOK_FAIL,
+                payload: error.response && error.response.data.message
+            });
+        }
+    };
+};
+
+const bookUpdateAction = (bookdata, id) => {
+    return async (dispatch, getState) => {
+        try {
+            const { token } = getState().userLogin; 
+
+            dispatch({
+                type: BOOK_UPDATE_REQUEST
+            });
+
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            };
+
+            const { data } = await axios.put('/api/book/update/'+id, bookdata, config);
+
+            dispatch({
+                type: BOOK_UPDATE_SUCCESS,
+                payload: data
+            });
+            
+        } catch (error) {
+            dispatch({
+                type: BOOK_UPDATE_FAIL,
+                payload: error.response && error.response.data.message
+            })
+        }
+    }
+};
+
+
+export { 
+    createBookAction, 
+    fetchBooksAction, 
+    deleteBookAction, 
+    singleBookAction,
+    bookUpdateAction 
+};

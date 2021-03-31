@@ -15,6 +15,15 @@ exports.allBook = async(req, res) => {
 };
 
 
+exports.bookDetails = async (req, res) => {
+    try {
+        const bookdetail = await bookModel.findById(req.params.id);
+        return res.status(200).json({message: "book found", book: bookdetail});
+    } catch (error) {
+        return res.status(500).json({message: "an error occured "+error});
+    }
+};
+
 
 exports.addBook = async (req, res) => {
     const book = req.body;
