@@ -28,10 +28,15 @@ const Navbar = () => {
         <Menu.Menu position='right'>
           <Dropdown item text='Account' pointing className='link item'>
             <Dropdown.Menu >
-              <Dropdown.Item as={Link} to={'/profile'}>Profile</Dropdown.Item>
-              <Dropdown.Item as={Link} to={'/login'}>Login</Dropdown.Item>
-              <Dropdown.Item as={Link} to={'/register'}>Register</Dropdown.Item>
-              <Dropdown.Item onClick={logoutUser}>Logout</Dropdown.Item>
+              {token ? 
+                <>
+                  <Dropdown.Item as={Link} to={'/profile'}>Profile</Dropdown.Item>
+                  <Dropdown.Item onClick={logoutUser}>Logout</Dropdown.Item>
+                </>
+                :
+                <Dropdown.Item as={Link} to={'/login'}>Login</Dropdown.Item>
+              }
+              {/* <Dropdown.Item as={Link} to={'/register'}>Register</Dropdown.Item> */}
             </Dropdown.Menu>
           </Dropdown>
         </Menu.Menu>
