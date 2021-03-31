@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { registerUserAction } from '../../redux/actions/userActions';
 import Notification from '../Other/Notification';
+import { Form, Grid, Button, GridRow, GridColumn } from 'semantic-ui-react'
 
 
 const RegisterUser = ({history}) => {
@@ -40,12 +41,13 @@ const RegisterUser = ({history}) => {
     };
 
     return(
-        <div className="col-md-6 offset-md-3">
-            <div className="container" style={{marginTop: 40}}>
-                {message?.content && <Notification message={message} />}
-                <form onSubmit={registerUser}>
-                    <fieldset>
-                        <div className='form-group'>
+        <div style={{marginTop: 20}}>
+        {message?.content && <Notification message={message}/> }    
+        <Grid>
+            <GridRow centered style={{marginTop: 20}}>
+                <GridColumn width={8}>
+                    <Form onSubmit={registerUser}>
+                        <Form.Field>
                             <label>NAME</label>
                             <input
                             value={username}
@@ -58,8 +60,8 @@ const RegisterUser = ({history}) => {
                             aria-describedby='emailHelp'
                             placeholder='username'
                             />
-                        </div>
-                        <div className='form-group'>
+                        </Form.Field>
+                        <Form.Field>
                             <label>EMAIL ADDRESS</label>
                             <input
                             value={emailaddress}
@@ -71,9 +73,9 @@ const RegisterUser = ({history}) => {
                             id='exampleInputEmail1'
                             placeholder='email address'
                             />
-                        </div>
-                        <div className='form-group'>
-                            <label>PASSWORD</label>
+                        </Form.Field>
+                        <Form.Field>
+                        <label>PASSWORD</label>
                             <input
                             value={password}
                             disabled={inputdisable}
@@ -84,14 +86,18 @@ const RegisterUser = ({history}) => {
                             id='exampleInputPassword1'
                             placeholder='password'
                             />
-                        </div>
-                        <button type='submit' style={{width: 80}} disabled={inputdisable} className='btn btn-warning m-auto'>
-                           { loading ? <i className="fa fa-spinner fa-pulse fa-fw"></i> : 'Register'}
-                        </button>
-                    </fieldset>
-                </form>
-            </div>
-        </div>
+                        </Form.Field>
+                        {loading ? 
+                        (<Button loading primary disabled content='Register'/>) : 
+                        (
+                        <Button type='submit' content='Register' primary/>
+                        )
+                        }
+                    </Form>
+                </GridColumn>
+            </GridRow>
+        </Grid>
+       </div>
     );
 };
 

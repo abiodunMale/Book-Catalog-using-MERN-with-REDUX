@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUserAction } from '../../redux/actions/userActions';
 import Notification from '../Other/Notification';
+import { Form, Grid, Button, GridRow, GridColumn, Header  } from 'semantic-ui-react'
 
 const LoginUser =  ({history}) => {
 
@@ -29,7 +30,7 @@ const LoginUser =  ({history}) => {
     const validation = (name, value) => {
         let errors = {},  inValid = false;
         const regEmail = /^(([^<>()\]\\.,;:\s@"]+(\.[^<>()\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        const regPassword = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,15}$/
+        const regPassword = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,15}$/
 
         if(name === 'email'){
             if(value === '' || !regEmail.test(value)){
@@ -66,48 +67,53 @@ const LoginUser =  ({history}) => {
     },[state])
 
     return(
-        <div className="col-md-6 offset-md-3">
-            <div className="container" style={{marginTop: 40}}>
-                {message?.content && <Notification message={message}/> }
-                <form onSubmit={loginUser}>
-                    <fieldset>
-                        <div className='form-group'>
-                            <label>EMAIL ADDRESS</label>
-                            <input
-                            value={values.email}
-                            disabled={inputdisable}
-                            name='email'
-                            onChange={e => onChangeValue(e)}
-                            type='email'
-                            className='form-control'
-                            id='emailaddress'
-                            placeholder='email address'
-                            required={true}
-                            />
-                            <p className='text-primary'>{errors.email}</p>
-                        </div>
-                        <div className='form-group'>
-                            <label>PASSWORD</label>
-                            <input
-                            value={values.pass}
-                            disabled={inputdisable}
-                            onChange={e => onChangeValue(e)}
-                            type='password'
-                            name='pass'
-                            className='form-control'
-                            id='passsword'
-                            required={true}
-                            placeholder='password'
-                            />
-                            <p className='text-primary'>{errors.pass}</p>
-                        </div>
-                        <button type='submit' style={{width: 80}} disabled={inputdisable} className='btn btn-warning m-auto'>
-                           { loading ? <i className="fa fa-spinner fa-pulse fa-fw"></i> : 'Sigin'}
-                        </button>
-                    </fieldset>
-                </form>
-            </div>
-        </div>
+        <div style={{marginTop: 20}}>
+        {message?.content && <Notification message={message}/> }    
+        <Grid>
+            <GridRow centered style={{marginTop: 20}}>
+                <GridColumn width={8}>
+                    <Form onSubmit={loginUser}>
+                        <Form.Field>
+                        <label>EMAIL ADDRESS</label>
+                        <input
+                        value={values.email}
+                        disabled={inputdisable}
+                        name='email'
+                        onChange={e => onChangeValue(e)}
+                        type='email'
+                        className='form-control'
+                        id='emailaddress'
+                        placeholder='email address'
+                        required={true}
+                        />
+                        <p style={{color: 'red'}}>{errors.email}</p>
+                        </Form.Field>
+                        <Form.Field>
+                        <label>PASSWORD</label>
+                        <input
+                        value={values.pass}
+                        disabled={inputdisable}
+                        onChange={e => onChangeValue(e)}
+                        type='password'
+                        name='pass'
+                        className='form-control'
+                        id='passsword'
+                        required={true}
+                        placeholder='password'
+                        />
+                        <p style={{color: 'red'}}>{errors.pass}</p>
+                        </Form.Field>
+                        {loading ? 
+                        (<Button loading primary disabled content='Sigin' icon='right arrow' labelPosition='right'/>) : 
+                        (
+                        <Button type='submit' content='Sigin' icon='right arrow' labelPosition='right' primary/>
+                        )
+                        }
+                    </Form>
+                </GridColumn>
+            </GridRow>
+        </Grid>
+       </div>
     );
 };
 
